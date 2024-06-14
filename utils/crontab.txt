@@ -1,0 +1,2 @@
+0 */3 * * * bot_stats >> $APP_HOME/logs/bs.log 2>&1
+2 4 * * * bot_cm >> $APP_HOME/logs/cm.log 2>&1

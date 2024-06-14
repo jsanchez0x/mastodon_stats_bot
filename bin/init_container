@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if ! [[ -z "${APP_PRODUCTION_ENV}" ]]; then
+    echo "Enabling scheduled execution of bots (foreground mode)..."
+    /usr/sbin/crond -f -l 8
+
+else
+    /bin/sh
+
+fi

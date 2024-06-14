@@ -1,0 +1,30 @@
+#!/bin/sh
+
+database_warmup() {
+    mastodon=0
+
+    if ! [[ -z "${APP_MASTODON_INTERACTION}" ]]; then
+        unset APP_MASTODON_INTERACTION
+        mastodon=1
+    fi
+
+    # Execute bot
+
+    if [ "$mastodon" -eq 1 ]; then
+        export APP_MASTODON_INTERACTION=1
+    fi
+}
+
+
+create_database () {
+    echo "Creating database file..."
+    touch $APP_HOME/data/volume/db.sqlite
+
+    echo "Creating database structure..."
+    cat $APP_HOME/data/db_create.sql | sqlite3 $APP_HOME/data/volume/db.sqlite
+
+    echo "Running the bot without interaction with Mastodon to warm up the database..."
+    database_warmup
+}
+
+create_database

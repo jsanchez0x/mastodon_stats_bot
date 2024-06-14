@@ -1,0 +1,6 @@
+#!/bin/sh
+
+now=$(date +"%d/%m/%Y %H:%M:%S")
+
+echo "$now INFO: Executing Mastodon Stats bot..."
+python3 $APP_HOME/bot_stats.py

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PROCESS="/usr/sbin/crond"
+PID=$(pgrep -x "$PROCESS")
+
+if [ -z "$PID" ]; then
+    echo "Enabling scheduled execution of bots (background mode)..."
+    /usr/sbin/crond -b -l 8
+
+else
+    echo "Disabling scheduled execution of bots..."
+    kill -9 $PID
+fi
