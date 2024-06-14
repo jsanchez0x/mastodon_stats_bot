@@ -28,6 +28,8 @@ RUN python3 -m venv /opt/venv && \
     /opt/venv/bin/pip install --upgrade pip setuptools && \
     /opt/venv/bin/pip install --no-cache-dir -r $APP_HOME/requirements.txt
 
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY ./bin /usr/local/bin
 RUN chmod a+x /usr/local/bin/*
 
