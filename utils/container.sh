@@ -1,8 +1,8 @@
 #!/bin/bash
-DOCKER_IMAGE="jsanchez0x/tecladostracker"
+DOCKER_IMAGE="jsanchez0x/mastodon-stats-bot"
 DOCKER_TAG="local"
-DOCKER_CONTAINER_NAME="tecladostracker"
-APP_HOME="/teclados_tracker"
+DOCKER_CONTAINER_NAME="mastodon-stats-bot"
+APP_HOME="/mastodon_stats_bot"
 
 if [ "$1" == "image" ]; then
     docker build --rm --tag ${DOCKER_IMAGE}:${DOCKER_TAG} .
