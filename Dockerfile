@@ -24,10 +24,9 @@ RUN cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
 
 COPY ./app $APP_HOME
 
-RUN ln -sf python3 /usr/bin/python && \
-    python3 -m ensurepip && \
-    pip3 install --no-cache-dir --upgrade pip setuptools && \
-    pip3 install --no-cache-dir -r $APP_HOME/requirements.txt
+RUN python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip setuptools && \
+    /opt/venv/bin/pip install --no-cache-dir -r $APP_HOME/requirements.txt
 
 COPY ./bin /usr/local/bin
 RUN chmod a+x /usr/local/bin/*
