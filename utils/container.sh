@@ -8,8 +8,8 @@ if [ "$1" == "image" ]; then
     docker build --rm --tag ${DOCKER_IMAGE}:${DOCKER_TAG} .
 
     docker run -d -it \
-    -v $(pwd)/tecladostracker-data:${APP_HOME}/data/volume \
-    -v $(pwd)/tecladostracker-logs:${APP_HOME}/logs \
+    -v $(pwd)/docker-volume-data:${APP_HOME}/data/volume \
+    -v $(pwd)/docker-volume-logs:${APP_HOME}/logs \
     --env-file utils/env.list \
     --name ${DOCKER_CONTAINER_NAME} ${DOCKER_IMAGE}:${DOCKER_TAG}
 
