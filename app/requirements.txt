@@ -1,3 +1,5 @@
 requests
 Pillow
 Mastodon.py
+Pandas
+matplotlib

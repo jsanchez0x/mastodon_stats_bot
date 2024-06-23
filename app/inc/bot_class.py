@@ -69,8 +69,25 @@ class Bot:
 
         return result
 
+    def getLastStoredStats(self):
+        """ Select last inserted record """
+        query = "SELECT * FROM stats ORDER BY id DESC LIMIT 1"
+        result = self.db.select(query)
+
+        return result
+
+    def publicToot(self):
+        print("🐘 Publish toot")
+
+
     def execute(self):
         if self.getStats():
-            self.insertStats()
+            self.checkStats()
+
+            last_stats = self.getLastStoredStats(self)
+
+            if last_stats[0]['last_updated_at'] < self.json_stats_checked['last_updated_at']:
+                self.insertStats()
+                self.publicToot()
 
         print("🏃🏻‍♂️‍➡️ Executing bot...")

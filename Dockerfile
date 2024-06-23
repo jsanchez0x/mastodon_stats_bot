@@ -3,30 +3,30 @@ FROM alpine:latest
 ENV APP_HOME=/mastodon_stats_bot
 ENV PYTHONUNBUFFERED=1
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache \
-    gcc \
-    libc-dev \
-    libjpeg-turbo-dev \
-    libxml2-dev \
-    libxslt-dev \
-    openjpeg \
-    python3-dev \
-    sqlite \
-    tiff-dev \
-    tzdata \
-    zlib-dev
-
-RUN cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
-    echo "Europe/Madrid" > /etc/timezone && \
-    apk del tzdata
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+        python3 \
+        sqlite \
+        libjpeg-turbo-dev \
+        openjpeg \
+        tiff-dev \
+        zlib-dev && \
+    python3 -m venv /opt/venv && \
+    /opt/venv/bin/pip install --upgrade pip setuptools wheel
 
 COPY ./app $APP_HOME
 
-RUN python3 -m venv /opt/venv && \
-    /opt/venv/bin/pip install --upgrade pip setuptools && \
-    /opt/venv/bin/pip install --no-cache-dir -r $APP_HOME/requirements.txt
+RUN apk add --no-cache --virtual .build-deps \
+        build-base \
+        python3-dev && \
+    /opt/venv/bin/pip install --no-cache-dir -r $APP_HOME/requirements.txt && \
+    apk del .build-deps
+
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
+    echo "Europe/Madrid" > /etc/timezone && \
+    apk del tzdata
 
 ENV PATH="/opt/venv/bin:$PATH"
 
