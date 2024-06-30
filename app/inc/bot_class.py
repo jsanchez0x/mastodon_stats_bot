@@ -70,9 +70,11 @@ class Bot:
 
         return result
 
-    def getLastStoredStats(self):
-        """ Select last inserted record """
-        query = "SELECT * FROM stats ORDER BY id DESC LIMIT 1"
+    def getStoredStats(self, last=False):
+        """ Select inserted records """
+        limit = 1 if last else 10
+
+        query = "SELECT * FROM stats ORDER BY id DESC LIMIT %d" % (limit)
         result = self.db.select(query)
 
         return result
@@ -86,7 +88,7 @@ class Bot:
         if self.getStats():
             self.checkStats()
 
-            last_stats = self.getLastStoredStats()
+            last_stats = self.getStoredStats(True)
 
             if last_stats[0]['last_updated_at'] < self.json_stats_checked['last_updated_at']:
                 self.insertStats()
