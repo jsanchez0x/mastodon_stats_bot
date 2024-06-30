@@ -15,6 +15,11 @@ RUN apk update && \
     python3 -m venv /opt/venv && \
     /opt/venv/bin/pip install --upgrade pip setuptools wheel
 
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
+    echo "Europe/Madrid" > /etc/timezone && \
+    apk del tzdata
+
 COPY ./app $APP_HOME
 
 RUN apk add --no-cache --virtual .build-deps \
@@ -22,11 +27,6 @@ RUN apk add --no-cache --virtual .build-deps \
         python3-dev && \
     /opt/venv/bin/pip install --no-cache-dir -r $APP_HOME/requirements.txt && \
     apk del .build-deps
-
-RUN apk add --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Europe/Madrid /etc/localtime && \
-    echo "Europe/Madrid" > /etc/timezone && \
-    apk del tzdata
 
 ENV PATH="/opt/venv/bin:$PATH"
 
