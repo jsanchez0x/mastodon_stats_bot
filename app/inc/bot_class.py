@@ -72,26 +72,30 @@ class Bot:
 
     def getStoredStats(self, last=False):
         """ Select inserted records """
+        order = "DESC" if last else "ASC"
         limit = 1 if last else 10
-
-        query = "SELECT * FROM stats ORDER BY id DESC LIMIT %d" % (limit)
+        query = "SELECT * FROM stats ORDER BY id %s LIMIT %d" % (order, limit)
         result = self.db.select(query)
 
         return result
 
     def publicToot(self):
-        self.graph.createGraph()
         print("🐘 Publish toot...")
-
+        self.graph.db_data = self.getStoredStats()
+        self.graph.createGraph()
 
     def execute(self):
+        print("🏃🏻‍♂️‍➡️ Executing bot...")
+
         if self.getStats():
             self.checkStats()
 
             last_stats = self.getStoredStats(True)
 
+            self.publicToot()
+
             if last_stats[0]['last_updated_at'] < self.json_stats_checked['last_updated_at']:
                 self.insertStats()
-                self.publicToot()
+                # self.publicToot()
 
-        print("🏃🏻‍♂️‍➡️ Executing bot...")
+
