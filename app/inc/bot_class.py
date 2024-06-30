@@ -8,6 +8,7 @@ class Bot:
     def __init__(self):
         self.db = inc.db_class.Database()
         self.mastodon = inc.mastodon_class.Mastodon()
+        self.graph = inc.graph_class.Graph()
         self.json_stats = {}
         self.json_stats_checked = {}
 
@@ -77,14 +78,15 @@ class Bot:
         return result
 
     def publicToot(self):
-        print("🐘 Publish toot")
+        self.graph.createGraph()
+        print("🐘 Publish toot...")
 
 
     def execute(self):
         if self.getStats():
             self.checkStats()
 
-            last_stats = self.getLastStoredStats(self)
+            last_stats = self.getLastStoredStats()
 
             if last_stats[0]['last_updated_at'] < self.json_stats_checked['last_updated_at']:
                 self.insertStats()

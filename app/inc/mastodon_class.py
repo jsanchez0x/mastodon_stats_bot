@@ -19,7 +19,7 @@ class Mastodon:
         api = MastodonPy(
             access_token = inc.cfg.mastodon["access_token"],
             api_base_url = 'https://masto.es',
-            user_agent = 'TecladosTrackerBot'
+            user_agent = 'MastodonStatsBot'
         )
 
         return api

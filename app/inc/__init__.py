@@ -6,3 +6,4 @@ import inc.db_class as db
 import inc.mastodon_class
 import inc.cm_class
 import inc.bot_class
+import inc.graph_class
